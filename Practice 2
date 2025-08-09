@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Filter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        .product {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        select {
+            margin-bottom: 20px;
+            padding: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Product List</h2>
+    <label for="categoryFilter">Filter by Category:</label>
+    <select id="categoryFilter">
+        <option value="all">All</option>
+        <option value="shoes">Shoes</option>
+        <option value="shirts">Shirts</option>
+        <option value="gadgets">Gadgets</option>
+    </select>
+
+    <div id="productList">
+        <div class="product" data-category="shoes">Running Shoes</div>
+        <div class="product" data-category="shirts">Casual Shirt</div>
+        <div class="product" data-category="gadgets">Smartphone</div>
+        <div class="product" data-category="shoes">Leather Boots</div>
+        <div class="product" data-category="shirts">Formal Shirt</div>
+        <div class="product" data-category="gadgets">Smartwatch</div>
+    </div>
+
+    <script>
+        const filter = document.getElementById('categoryFilter');
+        const products = document.querySelectorAll('.product');
+
+        filter.addEventListener('change', () => {
+            const category = filter.value;
+            products.forEach(product => {
+                if (category === 'all' || product.dataset.category === category) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
