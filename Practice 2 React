@@ -1,0 +1,217 @@
+//app.jsx
+import { useState } from 'react'
+import './App.css'
+
+function App() {
+  // Initial book list
+  const [books, setBooks] = useState([
+    { title: 'The Great Gatsby', author: 'F. Scott Fitzgerald' },
+    { title: '1984', author: 'George Orwell' },
+    { title: 'To Kill a Mockingbird', author: 'Harper Lee' }
+  ])
+  const [search, setSearch] = useState('')
+  const [newTitle, setNewTitle] = useState('')
+  const [newAuthor, setNewAuthor] = useState('')
+
+  // Filter books by search query (title or author)
+  const filteredBooks = books.filter(
+    (book) =>
+      book.title.toLowerCase().includes(search.toLowerCase()) ||
+      book.author.toLowerCase().includes(search.toLowerCase())
+  )
+
+  // Add a new book
+  const handleAddBook = (e) => {
+    e.preventDefault()
+    if (newTitle.trim() && newAuthor.trim()) {
+      setBooks([...books, { title: newTitle.trim(), author: newAuthor.trim() }])
+      setNewTitle('')
+      setNewAuthor('')
+    }
+  }
+
+  // Remove a book by index
+  const handleRemoveBook = (index) => {
+    setBooks(books.filter((_, i) => i !== index))
+  }
+
+  return (
+    <div className="library-app">
+      <h1>Library Management</h1>
+
+      {/* Search Box */}
+      <input
+        type="text"
+        placeholder="Search by title or author..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="search-input"
+      />
+
+      {/* Add Book Form */}
+      <form onSubmit={handleAddBook} className="add-book-form">
+        <input
+          type="text"
+          placeholder="Book Title"
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Author"
+          value={newAuthor}
+          onChange={(e) => setNewAuthor(e.target.value)}
+          required
+        />
+        <button type="submit">Add Book</button>
+      </form>
+
+      {/* Book List */}
+      <ul className="book-list">
+        {filteredBooks.length === 0 ? (
+          <li>No books found.</li>
+        ) : (
+          filteredBooks.map((book, idx) => (
+            <li key={idx} className="book-item">
+              <span>
+                <strong>{book.title}</strong> by {book.author}
+              </span>
+              <button onClick={() => handleRemoveBook(books.indexOf(book))}>
+                Remove
+              </button>
+            </li>
+          ))
+        )}
+      </ul>
+    </div>
+  )
+}
+
+export default App
+
+//app.css
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+//index.css
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+//main.jsx
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
