@@ -1,0 +1,97 @@
+const readline = require('readline');
+
+// Create readline interface
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+// Array to store employees
+let employees = [];
+
+// Display the menu
+function showMenu() {
+    console.log('\nEmployee Management CLI');
+    console.log('1. Add Employee');
+    console.log('2. List Employees');
+    console.log('3. Remove Employee by ID');
+    console.log('4. Exit');
+    rl.question('Choose an option: ', handleMenu);
+}
+
+// Handle user menu selection
+function handleMenu(option) {
+    switch (option.trim()) {
+        case '1':
+            addEmployee();
+            break;
+        case '2':
+            listEmployees();
+            break;
+        case '3':
+            removeEmployee();
+            break;
+        case '4':
+            console.log('Exiting...');
+            rl.close();
+            break;
+        default:
+            console.log('Invalid option, try again.');
+            showMenu();
+    }
+}
+
+// Add a new employee
+function addEmployee() {
+    rl.question('Enter employee name: ', (name) => {
+        if (!name.trim()) {
+            console.log('Name cannot be empty.');
+            return addEmployee();
+        }
+        rl.question('Enter employee ID (numbers only): ', (id) => {
+            if (!/^\d+$/.test(id)) {
+                console.log('ID must be a number.');
+                return addEmployee();
+            }
+            // Check if ID already exists
+            const exists = employees.some(emp => emp.id === id);
+            if (exists) {
+                console.log('Employee with this ID already exists.');
+            } else {
+                employees.push({ name: name.trim(), id });
+                console.log(`Employee ${name.trim()} added successfully.`);
+            }
+            showMenu();
+        });
+    });
+}
+
+// List all employees
+function listEmployees() {
+    if (employees.length === 0) {
+        console.log('No employees found.');
+    } else {
+        console.log('\nEmployee List:');
+        employees.forEach(emp => {
+            console.log(`ID: ${emp.id}, Name: ${emp.name}`);
+        });
+    }
+    showMenu();
+}
+
+// Remove an employee by ID
+function removeEmployee() {
+    rl.question('Enter employee ID to remove: ', (id) => {
+        const index = employees.findIndex(emp => emp.id === id);
+        if (index !== -1) {
+            const removed = employees.splice(index, 1);
+            console.log(`Removed employee: ${removed[0].name}`);
+        } else {
+            console.log('Employee not found.');
+        }
+        showMenu();
+    });
+}
+
+// Start the app
+showMenu();
