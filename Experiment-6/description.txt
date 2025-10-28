@@ -1,0 +1,118 @@
+
+EXPLANATION : 
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Canvas Drawing Tool</title>
+  <style>
+    .container {
+      border: 2px solid #222;
+      margin: 24px;
+      padding: 10px;
+      width: 650px;
+      background: #fff;------------------------------------------------------->CODE BLOCK
+    }
+    h2 {
+      margin-top: 0;
+    }
+    canvas {
+      background: #f9f9f9;
+      border: 2px solid #555;
+      cursor: crosshair;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+</body>
+</html>
+
+
+
+EXPLANATION OF CODE BLOCK:
+
+<style> → Defines CSS rules:
+
+.container → Styles the main container box.
+
+h2 → Adds spacing adjustments to the heading.------------------------------------------------->EXPLANATION
+
+canvas → Adds background color, border, and crosshair cursor for drawing area.
+
+
+
+<script>
+  const canvas = document.getElementById('drawing-canvas');
+  const ctx = canvas.getContext('2d');
+  let isDrawing = false;
+  let isInsideCanvas = false;----------------------------------------------------->CODE BLOCK
+  let lastX = 0;
+  let lastY = 0;
+</script>
+
+
+EXPLANATION OF CODE BLOCK:
+
+<script> → Starts the JavaScript section.
+
+const canvas → Selects the <canvas> element by its ID.
+
+const ctx = canvas.getContext('2d'); → Gets 2D drawing context to draw shapes/lines.---------------------------------->EXPLANATION
+
+let isDrawing = false; → Tracks whether the mouse is currently drawing.
+
+let isInsideCanvas = false; → Tracks whether the mouse pointer is inside canvas.
+
+lastX, lastY → Store previous mouse coordinates for continuous drawing.
+
+
+
+
+function handleMouseUp() {
+  isDrawing = false;
+}
+
+function handleMouseEnter() {---------------------------------------->CODE BLOCK
+  isInsideCanvas = true;
+}
+
+function handleMouseLeave() {
+  isInsideCanvas = false;
+  isDrawing = false; 
+}
+
+
+EXPLANATION OF CODE BLOCK:
+
+handleMouseUp() → Stops drawing when mouse is released.
+
+handleMouseEnter() → Sets flag true when mouse enters canvas.--------------------------------------------->EXPLANATION
+
+handleMouseLeave() → Stops drawing and marks cursor as outside when mouse leaves canvas.
+
+
+canvas.addEventListener('mousedown', handleMouseDown);
+canvas.addEventListener('mousemove', handleMouseMove);
+canvas.addEventListener('mouseup', handleMouseUp);
+canvas.addEventListener('mouseleave', handleMouseLeave);---------------------------------------->CODEBLOCK
+canvas.addEventListener('mouseenter', handleMouseEnter);
+
+
+EXPLANATION OF CODE BLOCK:
+
+canvas.addEventListener(...) → Attaches event listeners to canvas.--------------------------------------->EXPLANATION
+
+'mousedown' → Starts drawing on click.
+
+'mousemove' → Draws lines while mouse is moving.
+
+'mouseup' → Stops drawing when mouse released.
+
+'mouseleave' → Cancels drawing when cursor leaves canvas.
+
+'mouseenter' → Reactivates drawing mode when cursor re-enters.
+
